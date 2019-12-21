@@ -1,0 +1,22 @@
+{
+  "name": "internetmon",
+  "version": "1.0.0",
+  "description": "A internet monitor/tester that will ping and do speed tests at intervals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "pkg -t node8-win-x86 index.js"
+  },
+  "author": "NdT3Development",
+  "private": true,
+  "license": "NdT3Development-InternetMon-EULA",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "moment": "^2.22.1",
+    "morgan": "^1.9.1",
+    "ping": "^0.2.2",
+    "speedtest-net": "^1.6.0",
+    "sqlite3": "^4.1.1"
+  }
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ping</title>
+		<link rel="stylesheet" href="/assets/Chart.css" />
+	</head>
+	<body>
+		<canvas id="Chart1"></canvas>
+		<script src="/assets/Chart.min.js"></script>
+		<script src="/assets/moment.min.js"></script>
+		<script>
+			var data = <%- data %>;
+			
+			var lineChartData = {
+				labels: [],
+				datasets: [
+					{
+						label: 'Average',
+						borderColor: 'cyan',
+						backgroundColor: 'transparent',
+						data: []
+					},
+					{
+						label: 'Max',
+						borderColor: 'purple',
+						backgroundColor: 'transparent',
+						data: []
+					},
+					{
+						label: 'Min',
+						borderColor: 'green',
+						backgroundColor: 'transparent',
+						data: []
+					}
+				]
+			};
+			
+			for (var i=0;i<data.length;i++) {
+				lineChartData.labels.push(moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
+				lineChartData.datasets[0].data.push(data[i].average);
+				lineChartData.datasets[1].data.push(data[i].max);
+				lineChartData.datasets[2].data.push(data[i].min);
+			}
+
+			ctx = document.getElementById("Chart1").getContext("2d");
+			var myLineChart = new Chart(ctx, {
+				type: 'line',
+				data: lineChartData,
+				options: {
+					responsive: true
+				}
+			});
+		</script>
+	</body>
+</html>
