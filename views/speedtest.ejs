@@ -18,21 +18,23 @@
 						label: 'Download',
 						borderColor: 'purple',
 						backgroundColor: 'transparent',
+						spanGaps: true,
 						data: []
 					},
 					{
 						label: 'Upload',
 						borderColor: 'cyan',
 						backgroundColor: 'transparent',
+						spanGaps: true,
 						data: []
 					}
 				]
 			};
 			
 			for (var i=0;i<data.length;i++) {
-				lineChartData.labels.push(moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
-				lineChartData.datasets[0].data.push(data[i].download);
-				lineChartData.datasets[1].data.push(data[i].upload);
+				lineChartData.labels.push(moment.unix(data[i].timestamp==0?'u':data[i].timestamp).format('D MMM YY HH:mm'));
+				lineChartData.datasets[0].data.push(data[i].download==0?'u':data[i].download);
+				lineChartData.datasets[1].data.push(data[i].upload==0?'u':data[i].upload);
 			}
 
 			ctx = document.getElementById("Chart1").getContext("2d");

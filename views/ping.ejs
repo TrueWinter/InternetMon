@@ -18,18 +18,21 @@
 						label: 'Average',
 						borderColor: 'cyan',
 						backgroundColor: 'transparent',
+						spanGaps: true,
 						data: []
 					},
 					{
 						label: 'Max',
 						borderColor: 'purple',
 						backgroundColor: 'transparent',
+						spanGaps: true,
 						data: []
 					},
 					{
 						label: 'Min',
 						borderColor: 'green',
 						backgroundColor: 'transparent',
+						spanGaps: true,
 						data: []
 					}
 				]
@@ -37,9 +40,10 @@
 			
 			for (var i=0;i<data.length;i++) {
 				lineChartData.labels.push(moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
-				lineChartData.datasets[0].data.push(data[i].average);
-				lineChartData.datasets[1].data.push(data[i].max);
-				lineChartData.datasets[2].data.push(data[i].min);
+				
+				lineChartData.datasets[0].data.push(data[i].average==0?'u':data[i].average); //average==0?'u':average //data[i].average
+				lineChartData.datasets[1].data.push(data[i].max==0?'u':data[i].max);
+				lineChartData.datasets[2].data.push(data[i].min==0?'u':data[i].min);
 			}
 
 			ctx = document.getElementById("Chart1").getContext("2d");

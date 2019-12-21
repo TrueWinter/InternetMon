@@ -71,6 +71,7 @@ function ping(cb) {
 			db.insertPingResults(res.avg, res.max, res.min);
 			return cb(null, `Minimum: ${res.min} | Maximum: ${res.max} | Average: ${res.avg}`);
 		} else {
+			db.insertPingResults(0, 0, 0);
 			return cb(`Unable to ping ${host}`, null);
 		}
 	});
@@ -85,7 +86,10 @@ function pingFn () {
 
 function speedTestFn() {
 	testSpeed((err, result) => {
-		if (err) return log('ERROR', err);
+		if (err) {
+			log('ERROR', err);
+			return db.insertSpeedTestResults(0, 0);
+		}
 		log('SPEED TEST', `Ping: ${result.server.ping} | Download: ${result.speeds.download} | Upload : ${result.speeds.upload} | Client IP: ${result.client.ip} | Client ISP: ${result.client.isp} | Speed Test Server: ${result.server.host} | Speed Test Server Sponsor: ${result.server.sponsor} | Speed Test Location: ${result.server.location}, ${result.server.country} | Speed test done by speedtest.net using speedtest-net Node.JS module`);
 		db.insertSpeedTestResults(result.speeds.download, result.speeds.upload);
 	});
