@@ -10,9 +10,32 @@
 		<script src="/assets/moment.min.js"></script>
 		<script>
 			var data;
+			function getParameterByName(name, url) {
+				if (!url) url = window.location.href;
+				name = name.replace(/[\[\]]/g, '\\$&');
+				var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return '';
+				return decodeURIComponent(results[2].replace(/\+/g, ' '));
+			}
 
 			var xhr = new XMLHttpRequest();
-			xhr.open('GET', '/api/speedtest');
+			var xhr = new XMLHttpRequest();
+			if (getParameterByName('d') && parseInt(getParameterByName('d')) < 30) {
+				console.log('d');
+				var d = parseInt(getParameterByName('d'));
+				xhr.open('GET', `/api/speedtest?d=${d}`);
+				console.log('/api/speedtest?d='+d);
+			} else if (getParameterByName('h') && parseInt(getParameterByName('h')) < 24) {
+				console.log('h');
+				var h = parseInt(getParameterByName('h'));
+				xhr.open('GET', `/api/speedtest?h=${h}`); // ?h=${h} doesn't work for some reason
+				console.log(`/api/speedtest?h=${h}`);
+			} else {
+				console.log('n');
+				xhr.open('GET', '/api/speedtest');
+			}
 			xhr.onload = function() {
 				data = JSON.parse(this.responseText);
 				var lineChartData = {

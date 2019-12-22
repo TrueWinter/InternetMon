@@ -10,9 +10,31 @@
 		<script src="/assets/moment.min.js"></script>
 		<script>
 			var data;
+			function getParameterByName(name, url) {
+				if (!url) url = window.location.href;
+				name = name.replace(/[\[\]]/g, '\\$&');
+				var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return '';
+				return decodeURIComponent(results[2].replace(/\+/g, ' '));
+			}
 
 			var xhr = new XMLHttpRequest();
-			xhr.open('GET', '/api/ping');
+			if (getParameterByName('d') && parseInt(getParameterByName('d')) < 30) {
+				console.log('d');
+				var d = parseInt(getParameterByName('d'));
+				xhr.open('GET', `/api/ping?d=${d}`);
+				console.log('/api/ping?d='+d);
+			} else if (getParameterByName('h') && parseInt(getParameterByName('h')) < 24) {
+				console.log('h');
+				var h = parseInt(getParameterByName('h'));
+				xhr.open('GET', `/api/ping?sudo=workpls&h=${h}`); // ?h=${h} doesn't work for some reason
+				console.log(`/api/ping?h=${h}`);
+			} else {
+				console.log('n');
+				xhr.open('GET', '/api/ping');
+			}
 			xhr.onload = function() {
 				data = JSON.parse(this.responseText);
 				var lineChartData = {

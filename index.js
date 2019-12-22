@@ -152,7 +152,10 @@ app.get('/speedtest', function(req, res) {
 
 app.get('/api/ping', function(req, res) {
 	var d = 1;
+	var h = 0;
 	if (req.query.d && req.query.d < 30) d = req.query.d;
+	if (req.query.h && req.query.h < 30) h = req.query.h;
+	if (h) d = h / 24;
 	db.getPingResults(d, function(err, data) {
 		if (err) throw err;
 		res.json(data);
@@ -161,7 +164,10 @@ app.get('/api/ping', function(req, res) {
 
 app.get('/api/speedtest', function(req, res) {
 	var d = 1;
+	var h = 0;
 	if (req.query.d && req.query.d < 30) d = req.query.d;
+	if (req.query.h && req.query.h < 30) h = req.query.h;
+	if (h) d = h / 24;
 	db.getSpeedTestResults(d, function(err, data) {
 		if (err) throw err;
 		res.json(data);
