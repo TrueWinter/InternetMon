@@ -174,6 +174,15 @@ app.get('/api/speedtest', function(req, res) {
 	});
 });
 
+app.get('/api/config', function(req, res) {
+	var publicConfig = {
+		speedTestEvery: config.speedTestEvery,
+		pingEvery: config.pingEvery
+	};
+
+	res.json(publicConfig);
+});
+
 app.listen(5514, function() {
 	console.log('Listening on port 5514');
 });

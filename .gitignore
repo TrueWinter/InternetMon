@@ -1,4 +1,4 @@
 node_modules
 log.txt
-db.sqlite3
+*.sqlite3
 Releases
