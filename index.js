@@ -9,9 +9,6 @@ var app = express();
 var morgan = require('morgan');
 var db = require('./db.js');
 
-app.set('view engine', 'ejs');
-app.use(morgan('combined'));
-
 console.log(moment().unix()); // 1576763732 - This will be stored in the database
 console.log(moment.unix(moment().unix()).format('HH:mm'));
 
@@ -125,25 +122,49 @@ var speedInterval = setInterval(() => { // eslint-disable-line no-unused-vars
 pingFn();
 speedTestFn();
 
+// Server
+
+app.set('view engine', 'ejs');
+app.use(morgan('combined'));
 app.use('/assets', express.static('assets'));
 
 app.get('/ping', function(req, res) {
-	var d = 1;
+	/*var d = 1;
 	if (req.query.d && req.query.d < 30) d = req.query.d;
 	db.getPingResults(d, function(err, data) {
 		if (err) throw err;
 		//console.log(data);
-		res.render('ping.ejs', { data: JSON.stringify(data) });
-	});
+		res.render('ping.ejs', { data: JSON.stringify(data) }); //var data = <%- data %>;
+	});*/
+	res.render('ping.ejs');
 });
 
 app.get('/speedtest', function(req, res) {
-	var d = 1;
+	/*var d = 1;
 	if (req.query.d && req.query.d < 30) d = req.query.d;
 	db.getSpeedTestResults(d, function(err, data) {
 		if (err) throw err;
 		//console.log(data);
 		res.render('speedtest.ejs', { data: JSON.stringify(data) });
+	});*/
+	res.render('speedtest.ejs');
+});
+
+app.get('/api/ping', function(req, res) {
+	var d = 1;
+	if (req.query.d && req.query.d < 30) d = req.query.d;
+	db.getPingResults(d, function(err, data) {
+		if (err) throw err;
+		res.json(data);
+	});
+});
+
+app.get('/api/speedtest', function(req, res) {
+	var d = 1;
+	if (req.query.d && req.query.d < 30) d = req.query.d;
+	db.getSpeedTestResults(d, function(err, data) {
+		if (err) throw err;
+		res.json(data);
 	});
 });
 

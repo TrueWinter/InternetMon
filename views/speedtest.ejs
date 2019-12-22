@@ -9,42 +9,49 @@
 		<script src="/assets/Chart.min.js"></script>
 		<script src="/assets/moment.min.js"></script>
 		<script>
-			var data = <%- data %>;
-			
-			var lineChartData = {
-				labels: [],
-				datasets: [
-					{
-						label: 'Download',
-						borderColor: 'purple',
-						backgroundColor: 'transparent',
-						spanGaps: false,
-						data: []
-					},
-					{
-						label: 'Upload',
-						borderColor: 'cyan',
-						backgroundColor: 'transparent',
-						spanGaps: false,
-						data: []
-					}
-				]
-			};
-			
-			for (var i=0;i<data.length;i++) {
-				lineChartData.labels.push(moment.unix(data[i].timestamp==0?'u':data[i].timestamp).format('D MMM YY HH:mm'));
-				lineChartData.datasets[0].data.push(data[i].download==0?'u':data[i].download);
-				lineChartData.datasets[1].data.push(data[i].upload==0?'u':data[i].upload);
-			}
+			var data;
 
-			ctx = document.getElementById("Chart1").getContext("2d");
-			var myLineChart = new Chart(ctx, {
-				type: 'line',
-				data: lineChartData,
-				options: {
-					responsive: true
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', '/api/speedtest');
+			xhr.onload = function() {
+				data = JSON.parse(this.responseText);
+				var lineChartData = {
+					labels: [],
+					datasets: [
+						{
+							label: 'Download',
+							borderColor: 'purple',
+							backgroundColor: 'transparent',
+							spanGaps: false,
+							data: []
+						},
+						{
+							label: 'Upload',
+							borderColor: 'cyan',
+							backgroundColor: 'transparent',
+							spanGaps: false,
+							data: []
+						}
+					]
+				};
+				
+				for (var i=0;i<data.length;i++) {
+					lineChartData.labels.push(moment.unix(data[i].timestamp==0?'u':data[i].timestamp).format('D MMM YY HH:mm'));
+					lineChartData.datasets[0].data.push(data[i].download==0?'u':data[i].download);
+					lineChartData.datasets[1].data.push(data[i].upload==0?'u':data[i].upload);
 				}
-			});
+
+				ctx = document.getElementById("Chart1").getContext("2d");
+				var myLineChart = new Chart(ctx, {
+					type: 'line',
+					data: lineChartData,
+					options: {
+						responsive: true
+					}
+				});
+			};
+
+			xhr.send();
 		</script>
 	</body>
 </html>

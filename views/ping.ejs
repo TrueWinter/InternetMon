@@ -9,51 +9,58 @@
 		<script src="/assets/Chart.min.js"></script>
 		<script src="/assets/moment.min.js"></script>
 		<script>
-			var data = <%- data %>;
-			
-			var lineChartData = {
-				labels: [],
-				datasets: [
-					{
-						label: 'Average',
-						borderColor: 'cyan',
-						backgroundColor: 'transparent',
-						spanGaps: false,
-						data: []
-					},
-					{
-						label: 'Max',
-						borderColor: 'purple',
-						backgroundColor: 'transparent',
-						spanGaps: false,
-						data: []
-					},
-					{
-						label: 'Min',
-						borderColor: 'green',
-						backgroundColor: 'transparent',
-						spanGaps: false,
-						data: []
-					}
-				]
-			};
-			
-			for (var i=0;i<data.length;i++) {
-				lineChartData.labels.push(moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
+			var data;
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', '/api/ping');
+			xhr.onload = function() {
+				data = JSON.parse(this.responseText);
+				var lineChartData = {
+					labels: [],
+					datasets: [
+						{
+							label: 'Average',
+							borderColor: 'cyan',
+							backgroundColor: 'transparent',
+							spanGaps: false,
+							data: []
+						},
+						{
+							label: 'Max',
+							borderColor: 'purple',
+							backgroundColor: 'transparent',
+							spanGaps: false,
+							data: []
+						},
+						{
+							label: 'Min',
+							borderColor: 'green',
+							backgroundColor: 'transparent',
+							spanGaps: false,
+							data: []
+						}
+					]
+				};
 				
-				lineChartData.datasets[0].data.push(data[i].average==0?'u':data[i].average); //average==0?'u':average //data[i].average
-				lineChartData.datasets[1].data.push(data[i].max==0?'u':data[i].max);
-				lineChartData.datasets[2].data.push(data[i].min==0?'u':data[i].min);
+				for (var i=0;i<data.length;i++) {
+					lineChartData.labels.push(moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
+					
+					lineChartData.datasets[0].data.push(data[i].average==0?'u':data[i].average); //average==0?'u':average //data[i].average
+					lineChartData.datasets[1].data.push(data[i].max==0?'u':data[i].max);
+					lineChartData.datasets[2].data.push(data[i].min==0?'u':data[i].min);
+				}
+
+				ctx = document.getElementById("Chart1").getContext("2d");
+				var myLineChart = new Chart(ctx, {
+					type: 'line',
+					data: lineChartData,
+					options: {
+						responsive: true
+					}
+				});
 			}
 
-			ctx = document.getElementById("Chart1").getContext("2d");
-			var myLineChart = new Chart(ctx, {
-				type: 'line',
-				data: lineChartData,
-				options: {
-					responsive: true
-				}
-			});
+			xhr.send();
 		</script>
 	</body>
 </html>
