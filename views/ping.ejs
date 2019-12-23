@@ -67,8 +67,8 @@
 				var cXHR = new XMLHttpRequest();
 				cXHR.open('GET', '/api/config');
 				cXHR.onload = function() {
-					var first = (data[0].timestamp);
-					var second = (data[1].timestamp);
+					var first = (data[0]?data[0].timestamp:null);
+					var second = (data[1]?data[1].timestamp:null);
 					var thisTime = 0;
 					var addEmptySpace = false;
 
@@ -92,7 +92,7 @@
 						lineChartData.datasets[1].data.push(data[i].max==0?'u':data[i].max);
 						lineChartData.datasets[2].data.push(data[i].min==0?'u':data[i].min);
 
-						if (first && second && data[i+1]) {
+						if (first && second && data[i] && data[i+1]) {
 							//console.log(moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
 							//console.log(data[i+1].timestamp);
 							//console.log(data[i].timestamp);
