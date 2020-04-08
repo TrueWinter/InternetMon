@@ -4,11 +4,9 @@
   "description": "A internet monitor/tester that will ping and do speed tests at intervals",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "package": "pkg -t node8-win-x86 index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "NdT3Development",
-  "private": true,
   "license": "NdT3Development-InternetMon-EULA",
   "dependencies": {
     "ejs": "^3.0.1",
