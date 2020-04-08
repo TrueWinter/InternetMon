@@ -5,6 +5,7 @@
 		<link rel="stylesheet" href="/assets/Chart.css" />
 	</head>
 	<body>
+		<span style="position: absolute;right: 0;">InternetMon <span id="internetmon-version"></span> by NdT3</span>
 		<canvas id="Chart1"></canvas>
 		<script src="/assets/Chart.min.js"></script>
 		<script src="/assets/moment.min.js"></script>
@@ -22,17 +23,17 @@
 
 			var xhr = new XMLHttpRequest();
 			if (getParameterByName('d') && parseInt(getParameterByName('d')) < 30) {
-				console.log('d');
+				//console.log('d');
 				var d = parseInt(getParameterByName('d'));
 				xhr.open('GET', `/api/ping?d=${d}`);
-				console.log('/api/ping?d='+d);
+				//console.log('/api/ping?d='+d);
 			} else if (getParameterByName('h') && parseInt(getParameterByName('h')) < 24) {
-				console.log('h');
+				//console.log('h');
 				var h = parseInt(getParameterByName('h'));
 				xhr.open('GET', `/api/ping?sudo=workpls&h=${h}`); // ?h=${h} doesn't work for some reason
-				console.log(`/api/ping?h=${h}`);
+				//console.log(`/api/ping?h=${h}`);
 			} else {
-				console.log('n');
+				//console.log('n');
 				xhr.open('GET', '/api/ping');
 			}
 			xhr.onload = function() {
@@ -73,6 +74,8 @@
 					var addEmptySpace = false;
 
 					var publicConfig = JSON.parse(this.responseText);
+
+					document.getElementById('internetmon-version').innerText = publicConfig.version;
 					
 					window.timestamps = {
 						first,
@@ -97,8 +100,10 @@
 							//console.log(data[i+1].timestamp);
 							//console.log(data[i].timestamp);
 							//console.log((data[i+1].timestamp)-(data[i].timestamp));
+
+							// Don't look at this shit code which doesn't always work
 							if (((round(data[i+1].timestamp)-round(data[i].timestamp)) != publicConfig.pingEvery/1000) && (round(data[i+1].timestamp)-round(data[i].timestamp)>publicConfig.pingEvery/1000) && Math.round((round(data[i+1].timestamp)-round(data[i].timestamp)) / (publicConfig.pingEvery/1000))>1) {
-								console.log('This is where stuff needs to happen ' + moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
+								//console.log('This is where stuff needs to happen ' + moment.unix(data[i].timestamp).format('D MMM YY HH:mm'));
 								
 								var spacesToAdd = Math.round((round(data[i+1].timestamp)-round(data[i].timestamp)) / (publicConfig.pingEvery/1000));
 								var lastTimeStamp = data[i].timestamp;

@@ -1,6 +1,6 @@
 {
   "name": "internetmon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A internet monitor/tester that will ping and do speed tests at intervals",
   "main": "index.js",
   "scripts": {

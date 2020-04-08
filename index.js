@@ -177,7 +177,8 @@ app.get('/api/speedtest', function(req, res) {
 app.get('/api/config', function(req, res) {
 	var publicConfig = {
 		speedTestEvery: config.speedTestEvery,
-		pingEvery: config.pingEvery
+		pingEvery: config.pingEvery,
+		version: packageJSON.version
 	};
 
 	res.json(publicConfig);
