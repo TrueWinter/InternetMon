@@ -30,7 +30,7 @@
 			} else if (getParameterByName('h') && parseInt(getParameterByName('h')) < 24) {
 				console.log('h');
 				var h = parseInt(getParameterByName('h'));
-				xhr.open('GET', `/api/speedtest?h=${h}`); // ?h=${h} doesn't work for some reason
+				xhr.open('GET', `/api/speedtest?h=${h}`);
 				console.log(`/api/speedtest?h=${h}`);
 			} else {
 				console.log('n');
