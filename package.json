@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "NdT3Development",
-  "license": "NdT3Development-InternetMon-EULA",
+  "author": "TrueWinter",
+  "license": "MIT",
   "dependencies": {
     "ejs": "^3.0.1",
     "express": "^4.17.1",
